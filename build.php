@@ -34,7 +34,7 @@ foreach ($files as $name => $file)
         $relativePath = str_replace(DIRECTORY_SEPARATOR, "/", substr($filePath, strlen($rootPath)));
 
         // Add current file to archive
-        $zip->addFile($filePath, "goo1-elementor-widgets/".$relativePath);
+        $zip->addFile($filePath, "goo1-elementor-mediasite/".$relativePath);
     }
 }
 

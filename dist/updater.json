@@ -1,11 +1,11 @@
 {
     "name": "goo1 Mediasite",
-    "version": "0.1.101",
+    "version": "0.1.102",
     "download_url": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/goo1-elementor-mediasite.zip",
     "homepage": "https:\/\/github.com\/andreaskasper\/",
     "requires": "3.5",
     "tested": "6.2",
-    "last_updated": "2023-04-11 21:09:23",
+    "last_updated": "2023-04-11 21:17:27",
     "upgrade_notice": "First release",
     "author": "Andreas Kasper",
     "author_homepage": "https:\/\/goo1.de\/",

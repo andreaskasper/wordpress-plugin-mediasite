@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/andreaskasper/
  * Description: Create a mediasite with Elementor for dancers and others to sell videos and media.
  * Author: Andreas Kasper
- * Version: 0.1.101
+ * Version: 0.1.102
  * Author URI: https://github.com/andreaskasper/
  * Network: True
  * Text Domain: goo1-elementor-mediasite
@@ -28,7 +28,7 @@ spl_autoload_register(function ($class_name) {
 add_action( "plugins_loaded", function() {
     load_plugin_textdomain( "goo1-elementor-mediasite", FALSE, basename( dirname( __FILE__ ) ) . "/languages/" );
 });
-\plugins\goo1\elementorwidgets\core::init();
+\plugins\goo1\elementor\mediasite\core::init();
 
 if (!class_exists("Puc_v4_Factory")) {
 	require_once(__DIR__."/plugin-update-checker/plugin-update-checker.php");
