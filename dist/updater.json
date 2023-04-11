@@ -1,0 +1,32 @@
+{
+    "name": "goo1 Mediasite",
+    "version": "0.1.101",
+    "download_url": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/goo1-elementor-mediasite.zip",
+    "homepage": "https:\/\/github.com\/andreaskasper\/",
+    "requires": "3.5",
+    "tested": "6.2",
+    "last_updated": "2023-04-11 21:09:23",
+    "upgrade_notice": "First release",
+    "author": "Andreas Kasper",
+    "author_homepage": "https:\/\/goo1.de\/",
+    "sections": {
+        "description": "<p><\/p>",
+        "installation": "Please contact Andreas Kasper for the install and setup. The plugin is a customized plugin and not available in the official store!",
+        "changelog": "<h2>Changelog<\/h2><p>Basic Shortcodes<\/p>",
+        "Shortcodes": "<h2>Shortcodes<\/h2><table><tr><td>danceevent_livestream<\/td><td>embed a livestream from 5678.video in your website<\/td><\/tr><tr><td>wcs_livestream<\/td><td>embed a livestream from 5678.video in your website<\/td><\/tr><\/table>",
+        "Kontakt_Andreas": ""
+    },
+    "icons": {
+        "1x": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/logo_128.png",
+        "2x": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/logo_256.png"
+    },
+    "banners": {
+        "low": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/banner_250.jpg",
+        "high": "https:\/\/raw.githubusercontent.com\/andreaskasper\/wordpress-plugin-mediasite\/main\/dist\/banner_500.jpg"
+    },
+    "translations": [],
+    "rating": 90,
+    "num_ratings": 123,
+    "downloaded": 1234,
+    "active_installs": 12345
+}
