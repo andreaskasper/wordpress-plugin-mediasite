@@ -22,6 +22,10 @@ class core {
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new \plugins\goo1\elementorwidgets\elementor\widgets\Jitsi() );
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new \plugins\goo1\elementorwidgets\elementor\widgets\Calendly() );
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new \plugins\goo1\elementorwidgets\elementor\widgets\ToggleButton() );*/
-          });
+        });
+
+        add_action("wp_head", function() {
+            echo('<meta name="supportedby" content="Andreas Kasper"/>');
+        });
     }
 }
