@@ -15,7 +15,7 @@ echo("Version: ".$m2["v"]." => ".$m["v"].PHP_EOL);
 
 // Initialize archive object
 $zip = new ZipArchive();
-$zip->open('dist/goo1-elementor-mediasite.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+$zip->open('goo1-elementor-mediasite.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 // Create recursive directory iterator
 /** @var SplFileInfo[] $files */

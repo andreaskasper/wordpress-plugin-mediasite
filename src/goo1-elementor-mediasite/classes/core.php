@@ -27,5 +27,8 @@ class core {
         add_action("wp_head", function() {
             echo('<meta name="supportedby" content="Andreas Kasper"/>');
         });
+
+        //$a = new \plugins\goo1\elementor\mediasite\elementor\helper\RestrictContent();
+        elementor\helper\RestrictContent::init();
     }
 }

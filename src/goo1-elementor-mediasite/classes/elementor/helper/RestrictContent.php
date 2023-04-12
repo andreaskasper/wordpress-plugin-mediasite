@@ -1,23 +1,26 @@
 <?php
 
+namespace plugins\goo1\elementor\mediasite\elementor\helper;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class goo1_ElementorRestrictContent {
+class RestrictContent {
 
-    public function __construct() {
+    public static function init() {
         //add_action('elementor/element/common/_section_style/after_section_end', [$this, 'content_protection'], 10);
-        add_action('elementor/element/common/_section_style/after_section_end', [$this, "initeditor"], 10);
-        add_action('elementor/widget/render_content', [$this, 'prerender'], 10, 2 );
+        add_action('elementor/element/common/_section_style/after_section_end', [__CLASS__, "initeditor"], 10);
+        add_action( 'elementor/element/section/section_advanced/after_section_end', [__CLASS__, "initeditor"] );
+        add_action('elementor/widget/render_content', [__CLASS__, 'prerender'], 10, 2 );
     }
 
-function initeditor($element) {
+    public static function initeditor($element) {
     global $wpdb, $wp_roles;
         $element->start_controls_section(
             'goo1_ElementorRestrictContent_section',
             [
-                'label' => "goo1 Content Protection",
+                'label' => "🔒 Content Protection",
                 'tab' => \Elementor\Controls_Manager::TAB_ADVANCED,
             ]
         );
@@ -39,8 +42,8 @@ function initeditor($element) {
 			[
 				'label' => __( 'is logged in', 'plugin-domain' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __( 'yes', 'your-plugin' ),
-				'label_off' => __( 'no', 'your-plugin' ),
+				'label_on' => __( 'show', 'your-plugin' ),
+				'label_off' => __( 'hide', 'your-plugin' ),
 				'return_value' => "yes",
 				'default' => 'no',
                 'condition' => [
@@ -71,8 +74,8 @@ function initeditor($element) {
                 [
                     'label' => $v["name"],
                     'type' => \Elementor\Controls_Manager::SWITCHER,
-                    'label_on' => __( 'yes', 'your-plugin' ),
-                    'label_off' => __( 'no', 'your-plugin' ),
+                    'label_on' => __( 'show', 'your-plugin' ),
+                    'label_off' => __( 'hide', 'your-plugin' ),
                     'return_value' => "yes",
                     'default' => 'no',
                     'condition' => [
@@ -329,6 +332,19 @@ function initeditor($element) {
 		);
 
         $element->add_control(
+			'goo1_ElementorRestrictContent_timezone',
+			[
+				'label' => __( 'Timezone', 'plugin-domain' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => __( 'Continent/Country', 'plugin-domain' ),
+                'default' => date_default_timezone_get(),
+                'condition' => [
+                    "goo1_ElementorRestrictContent_enabled" => "yes"
+                ]
+			]
+		);
+
+        $element->add_control(
 			'goo1_ElementorRestrictContent_replacementtypebis',
 			[
 				'label' => __( 'Content if blocked', 'plugin-domain' ),
@@ -368,10 +384,13 @@ function initeditor($element) {
         $element->end_controls_section();
     }
 
-    function prerender($content, $widget) {
+    public static function prerender($content, $widget) {
         global $wp_roles;
         $settings = $widget->get_settings_for_display();
+        //print_r($settings);
         if (($settings["goo1_ElementorRestrictContent_enabled"] ?? "") != "yes") return $content;
+
+        //echo($settings["goo1_ElementorRestrictContent_enabled"]."Hallo");
 
         //Zeitsteuerung
         if (!empty($settings["goo1_ElementorRestrictContent_dtvon"])) {
@@ -400,7 +419,7 @@ function initeditor($element) {
 
         
         if (!$j AND (($settings["goo1_ElementorRestrictContent_byUserRole"] ?? "") == "yes")) {
-            $myroles = $this->get_current_user_roles();
+            $myroles = self::get_current_user_roles();
             $all_roles = $wp_roles->roles;
             foreach ($all_roles as $k => $v) {
                 if ((($settings['goo1_ElementorRestrictContent_role_'.$k] ?? "") == "yes") AND in_array($k, $myroles)) $j = true;
@@ -413,7 +432,7 @@ function initeditor($element) {
             foreach ($settings["goo1_ElementorRestrictContent_products"] as $a) {
                 $b[] = $a["pid"];
             }
-            if ($this->has_bought_items(0, $b)) $j = true;
+            if (self::has_bought_items(0, $b)) $j = true;
         }
 
 
@@ -437,7 +456,7 @@ function initeditor($element) {
         
     }
 
-    function get_current_user_roles() {
+    public static function get_current_user_roles() {
         if( is_user_logged_in() ) { // check if there is a logged in user 
             $user = wp_get_current_user(); // getting & setting the current user 
             $roles = ( array ) $user->roles; // obtaining the role 
@@ -447,7 +466,7 @@ function initeditor($element) {
         }
     }
 
-    function has_bought_items( $user_var = 0,  $product_ids = 0 ) {
+    public static function has_bought_items( $user_var = 0,  $product_ids = 0 ) {
         global $wpdb;
         
         // Based on user ID (registered users)
@@ -483,5 +502,3 @@ function initeditor($element) {
     }
 
 }
-
-$a = new goo1_ElementorRestrictContent();
