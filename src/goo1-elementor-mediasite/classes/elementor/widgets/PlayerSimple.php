@@ -81,7 +81,10 @@ class PlayerSimple extends \Elementor\Widget_Base {
 			'url',
 			[
 				'label' => __( 'URL', 'plugin-domain' ),
-				'type' => \Elementor\Controls_Manager::URL
+				'type' => \Elementor\Controls_Manager::URL,
+				'dynamic' => [
+					'active' => true,
+				]
 			]
         );
 
@@ -144,7 +147,10 @@ class PlayerSimple extends \Elementor\Widget_Base {
 			'poster_local',
 			[
 				'label' => __( 'Poster', 'plugin-domain' ),
-				'type' => \Elementor\Controls_Manager::MEDIA
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'dynamic' => [
+					'active' => true,
+				]
 			]
 		);
 
