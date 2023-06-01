@@ -194,7 +194,7 @@ class RestrictContent {
 		);
 
 		$element->add_control(
-			'goo1_ElementorRestrictContent_subscription',
+			'goo1_ElementorRestrictContent_subscriptions',
 			[
 				'label' => __( 'Woocommerce Subscription', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::REPEATER,
@@ -501,6 +501,13 @@ class RestrictContent {
             if (self::has_bought_items(0, $b)) $j = true;
         }
 
+        if (!$j AND (($settings["goo1_ElementorRestrictContent_byWooCommerceSubscription"] ?? "") == "yes")) {
+            $b = array();
+            foreach ($settings["goo1_ElementorRestrictContent_subscriptions"] as $a) {
+                if (is_subscription_active($a["pid"])) { $j = true; break; }
+            }
+        }
+
 
         if (($settings["goo1_ElementorRestrictContent_inverse"] ?? "") == "yes") $j = !$j;
 
@@ -550,6 +557,25 @@ class RestrictContent {
         }
     
         return $subscription_products;
+    }
+
+    public static function is_subscription_active( $product_id ) {
+        // Get the current user ID
+        $user_id = get_current_user_id();
+    
+        // Check if the user has an active subscription for the given product ID
+        $subscriptions = wcs_get_users_subscriptions( $user_id, array( 'subscriptions_per_page' => -1 ) );
+    
+        foreach ( $subscriptions as $subscription ) {
+            $subscription_product_id = $subscription->get_product_id();
+            $subscription_status = $subscription->get_status();
+    
+            if ( $subscription_product_id == $product_id && $subscription_status == 'active' ) {
+                return true; // Subscription is active for the current user and product
+            }
+        }
+    
+        return false; // No active subscription found
     }
 
     public static function has_bought_items( $user_var = 0,  $product_ids = 0 ) {
