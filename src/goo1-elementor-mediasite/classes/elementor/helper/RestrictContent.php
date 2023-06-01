@@ -504,7 +504,7 @@ class RestrictContent {
         if (!$j AND (($settings["goo1_ElementorRestrictContent_byWooCommerceSubscription"] ?? "") == "yes")) {
             $b = array();
             foreach ($settings["goo1_ElementorRestrictContent_subscriptions"] as $a) {
-                if (is_subscription_active($a["pid"])) { $j = true; break; }
+                if (self::is_subscription_active($a["pid"])) { $j = true; break; }
             }
         }
 
