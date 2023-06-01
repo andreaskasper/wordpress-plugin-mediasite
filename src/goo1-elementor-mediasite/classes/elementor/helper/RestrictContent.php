@@ -544,7 +544,7 @@ class RestrictContent {
     
         foreach ( $products as $product ) {
             // Check if the product is a subscription product
-            if ( class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) ) {
+            if ( class_exists( 'WC_Subscriptions_Product' ) && \WC_Subscriptions_Product::is_subscription( $product ) ) {
                 $subscription_products[$product->ID] = $product->post_title;
             }
         }

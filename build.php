@@ -10,6 +10,7 @@ $g = explode(".", $m["v"]);
 $g[2]++;
 $m["v"]=implode(".", $g);
 $str = str_replace("Version: ".$m2["v"], "Version: ".$m["v"], $str);
+
 file_put_contents(__DIR__."/src/goo1-elementor-mediasite/goo1-elementor-mediasite.php", $str);
 echo("Version: ".$m2["v"]." => ".$m["v"].PHP_EOL);
 
@@ -49,6 +50,7 @@ $json = json_decode(file_get_contents(__DIR__."/dist/updater.json"), true);
 
 $json["version"] = $version;
 $json["last_updated"] = date("Y-m-d H:i:s");
+$json["download_url"] = str_replace("v".$m2["v"],"v".$m["v"], $json["download_url"]);
 
 file_put_contents(__DIR__."/dist/updater.json", json_encode($json, JSON_PRETTY_PRINT));
 echo("fertig".PHP_EOL.PHP_EOL);
