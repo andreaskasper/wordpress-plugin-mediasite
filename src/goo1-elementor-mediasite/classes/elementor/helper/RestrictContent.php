@@ -28,7 +28,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_enabled',
 			[
-				'label' => __( 'enabled', 'plugin-domain' ),
+				'label' => __( 'enabled', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'enabled', 'your-plugin' ),
 				'label_off' => __( 'disabled', 'your-plugin' ),
@@ -40,7 +40,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_isloggedin',
 			[
-				'label' => __( 'is logged in', 'plugin-domain' ),
+				'label' => __( 'is logged in', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'show', 'your-plugin' ),
 				'label_off' => __( 'hide', 'your-plugin' ),
@@ -55,7 +55,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_byUserRole',
 			[
-				'label' => __( 'by User Role', 'plugin-domain' ),
+				'label' => __( 'by User Role', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'yes', 'your-plugin' ),
 				'label_off' => __( 'no', 'your-plugin' ),
@@ -89,7 +89,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_byWooCommerceProduct',
 			[
-				'label' => __( 'by WooCommerce Product', 'plugin-domain' ),
+				'label' => __( 'by WooCommerce Product', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'yes', 'your-plugin' ),
 				'label_off' => __( 'no', 'your-plugin' ),
@@ -130,7 +130,7 @@ class RestrictContent {
 		$element->add_control(
 			'goo1_ElementorRestrictContent_products',
 			[
-				'label' => __( 'Woocommerce Products', 'plugin-domain' ),
+				'label' => __( 'Woocommerce Products', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
 				'default' => [],
@@ -138,6 +138,72 @@ class RestrictContent {
 				'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes",
                     "goo1_ElementorRestrictContent_byWooCommerceProduct" => "yes"
+				],
+			]
+		);
+
+        $element->add_control(
+			'goo1_ElementorRestrictContent_byWooCommerceSubscription',
+			[
+				'label' => __( 'by WooCommerce Subscription', 'goo1-elementor-mediasite' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __( 'yes', 'your-plugin' ),
+				'label_off' => __( 'no', 'your-plugin' ),
+				'return_value' => "yes",
+				'default' => 'no',
+                'condition' => [
+                    "goo1_ElementorRestrictContent_enabled" => "yes"
+                ]
+			]
+		);
+
+        $w = self::get_subscription_products_array();
+
+        $repeater->add_control(
+			'pid',
+			[
+				'label' => __( '', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => $w,
+				'placeholder' => __( '', 'plugin-name' ),
+			]
+		);
+
+        $repeater->add_control(
+			'active',
+			[
+				'label' => __( 'active', 'goo1-elementor-mediasite' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __( 'yes', 'your-plugin' ),
+				'label_off' => __( 'no', 'your-plugin' ),
+				'return_value' => "yes",
+				'default' => 'yes'
+			]
+		);
+
+        $repeater->add_control(
+			'previously',
+			[
+				'label' => __( 'previously', 'goo1-elementor-mediasite' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __( 'yes', 'your-plugin' ),
+				'label_off' => __( 'no', 'your-plugin' ),
+				'return_value' => "yes",
+				'default' => 'no'
+			]
+		);
+
+		$element->add_control(
+			'goo1_ElementorRestrictContent_subscription',
+			[
+				'label' => __( 'Woocommerce Subscription', 'goo1-elementor-mediasite' ),
+				'type' => \Elementor\Controls_Manager::REPEATER,
+				'fields' => $repeater->get_controls(),
+				'default' => [],
+				'title_field' => 'PID: {{{ pid }}}',
+				'condition' => [
+                    "goo1_ElementorRestrictContent_enabled" => "yes",
+                    "goo1_ElementorRestrictContent_byWooCommerceSubscription" => "yes"
 				],
 			]
 		);
@@ -157,7 +223,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_inverse',
 			[
-				'label' => __( 'inverse', 'plugin-domain' ),
+				'label' => __( 'inverse', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'yes', 'your-plugin' ),
 				'label_off' => __( 'no', 'your-plugin' ),
@@ -172,14 +238,14 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementtype',
 			[
-				'label' => __( 'Content if blocked', 'plugin-domain' ),
+				'label' => __( 'Content if blocked', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => 'none',
 				'options' => [
-					'none'  => __( 'none', 'plugin-domain' ),
-					'template' => __( 'Elementor Template', 'plugin-domain' ),
-					'wysiwyg' => __( 'WYSIWYG Editor', 'plugin-domain' ),
-					'shortcode' => __( 'Shortcode', 'plugin-domain' )
+					'none'  => __( 'none', 'goo1-elementor-mediasite' ),
+					'template' => __( 'Elementor Template', 'goo1-elementor-mediasite' ),
+					'wysiwyg' => __( 'WYSIWYG Editor', 'goo1-elementor-mediasite' ),
+					'shortcode' => __( 'Shortcode', 'goo1-elementor-mediasite' )
 				],
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes"
@@ -198,7 +264,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementtemplate',
 			[
-				'label' => __( 'Template', 'plugin-domain' ),
+				'label' => __( 'Template', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => $rows_templates,
                 'condition' => [
@@ -211,9 +277,9 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementwysiwyg',
 			[
-				'label' => __( 'Description', 'plugin-domain' ),
+				'label' => __( 'Description', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::WYSIWYG,
-				'placeholder' => __( 'Type your replacement text here', 'plugin-domain' ),
+				'placeholder' => __( 'Type your replacement text here', 'goo1-elementor-mediasite' ),
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes",
                     "goo1_ElementorRestrictContent_replacementtype" => "wysiwyg"
@@ -224,10 +290,10 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementshortcode',
 			[
-				'label' => __( 'Shortcode', 'plugin-domain' ),
+				'label' => __( 'Shortcode', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::TEXTAREA,
 				'rows' => 2,
-				'placeholder' => __( 'Type your shortcode here', 'plugin-domain' ),
+				'placeholder' => __( 'Type your shortcode here', 'goo1-elementor-mediasite' ),
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes",
                     "goo1_ElementorRestrictContent_replacementtype" => "shortcode"
@@ -248,7 +314,7 @@ class RestrictContent {
         /*$element->add_control(
 			'goo1_ElementorRestrictContent_dtvonenabled',
 			[
-				'label' => __( 'von enabled', 'plugin-domain' ),
+				'label' => __( 'von enabled', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'enabled', 'your-plugin' ),
 				'label_off' => __( 'disabled', 'your-plugin' ),
@@ -263,7 +329,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_dtvon',
 			[
-				'label' => __( 'Startzeit', 'plugin-domain' ),
+				'label' => __( 'Startzeit', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::DATE_TIME,
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes"
@@ -274,15 +340,15 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementtypevon',
 			[
-				'label' => __( 'Content if blocked', 'plugin-domain' ),
+				'label' => __( 'Content if blocked', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => 'none',
 				'options' => [
-					'none'  => __( 'none', 'plugin-domain' ),
-                    'default'  => __( 'default block', 'plugin-domain' ),
-					'template' => __( 'Elementor Template', 'plugin-domain' ),
-					'wysiwyg' => __( 'WYSIWYG Editor', 'plugin-domain' ),
-					'shortcode' => __( 'Shortcode', 'plugin-domain' )
+					'none'  => __( 'none', 'goo1-elementor-mediasite' ),
+                    'default'  => __( 'default block', 'goo1-elementor-mediasite' ),
+					'template' => __( 'Elementor Template', 'goo1-elementor-mediasite' ),
+					'wysiwyg' => __( 'WYSIWYG Editor', 'goo1-elementor-mediasite' ),
+					'shortcode' => __( 'Shortcode', 'goo1-elementor-mediasite' )
 				],
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes",
@@ -294,7 +360,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_blockvontemplates',
 			[
-				'label' => __( 'Template', 'plugin-domain' ),
+				'label' => __( 'Template', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => $rows_templates,
                 'condition' => [
@@ -308,7 +374,7 @@ class RestrictContent {
         /*$element->add_control(
 			'goo1_ElementorRestrictContent_dtbisenabled',
 			[
-				'label' => __( 'bis enabled', 'plugin-domain' ),
+				'label' => __( 'bis enabled', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __( 'enabled', 'your-plugin' ),
 				'label_off' => __( 'disabled', 'your-plugin' ),
@@ -323,7 +389,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_dtbis',
 			[
-				'label' => __( 'Endzeit', 'plugin-domain' ),
+				'label' => __( 'Endzeit', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::DATE_TIME,
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes"
@@ -334,9 +400,9 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_timezone',
 			[
-				'label' => __( 'Timezone', 'plugin-domain' ),
+				'label' => __( 'Timezone', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'placeholder' => __( 'Continent/Country', 'plugin-domain' ),
+				'placeholder' => __( 'Continent/Country', 'goo1-elementor-mediasite' ),
                 'default' => date_default_timezone_get(),
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes"
@@ -347,15 +413,15 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_replacementtypebis',
 			[
-				'label' => __( 'Content if blocked', 'plugin-domain' ),
+				'label' => __( 'Content if blocked', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => 'none',
 				'options' => [
-					'none'  => __( 'none', 'plugin-domain' ),
-                    'default'  => __( 'default block', 'plugin-domain' ),
-					'template' => __( 'Elementor Template', 'plugin-domain' ),
-					'wysiwyg' => __( 'WYSIWYG Editor', 'plugin-domain' ),
-					'shortcode' => __( 'Shortcode', 'plugin-domain' )
+					'none'  => __( 'none', 'goo1-elementor-mediasite' ),
+                    'default'  => __( 'default block', 'goo1-elementor-mediasite' ),
+					'template' => __( 'Elementor Template', 'goo1-elementor-mediasite' ),
+					'wysiwyg' => __( 'WYSIWYG Editor', 'goo1-elementor-mediasite' ),
+					'shortcode' => __( 'Shortcode', 'goo1-elementor-mediasite' )
 				],
                 'condition' => [
                     "goo1_ElementorRestrictContent_enabled" => "yes",
@@ -367,7 +433,7 @@ class RestrictContent {
         $element->add_control(
 			'goo1_ElementorRestrictContent_blockbistemplates',
 			[
-				'label' => __( 'Template', 'plugin-domain' ),
+				'label' => __( 'Template', 'goo1-elementor-mediasite' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => $rows_templates,
                 'condition' => [
@@ -464,6 +530,26 @@ class RestrictContent {
         } else {
             return array(); // if there is no logged in user return empty array  
         }
+    }
+
+    public static function get_subscription_products_array() {
+        $subscription_products = array();
+    
+        // Get all products
+        $args = array(
+            'post_type'      => 'product',
+            'posts_per_page' => -1,
+        );
+        $products = get_posts( $args );
+    
+        foreach ( $products as $product ) {
+            // Check if the product is a subscription product
+            if ( class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) ) {
+                $subscription_products[$product->ID] = $product->post_title;
+            }
+        }
+    
+        return $subscription_products;
     }
 
     public static function has_bought_items( $user_var = 0,  $product_ids = 0 ) {
