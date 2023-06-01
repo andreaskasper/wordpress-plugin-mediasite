@@ -567,11 +567,26 @@ class RestrictContent {
         $subscriptions = wcs_get_users_subscriptions( $user_id, array( 'subscriptions_per_page' => -1 ) );
     
         foreach ( $subscriptions as $subscription ) {
-            $subscription_product_id = $subscription->get_product_id();
+            $order_items = $subscription->get_items();
             $subscription_status = $subscription->get_status();
-    
-            if ( $subscription_product_id == $product_id && $subscription_status == 'active' ) {
-                return true; // Subscription is active for the current user and product
+
+            if ($subscription_status != 'active') continue;
+            // Loop through order items
+            foreach ( $order_items as $item_id => $item ) {
+                // Get the WC_Product_Subscription Object
+                //$product = $item->get_product();
+
+                // To get the subscription variable product ID and simple subscription  product ID
+                $subscription_product_id = $item->get_product_id();
+
+                // To get the variation subscription product ID
+                //$variation_id = $item->get_variation_id();
+
+                // Or to get the simple subscription or the variation subscription product ID
+                //$_product_id = $product->get_id();
+                if ( $subscription_product_id == $product_id ) {
+                    return true; // Subscription is active for the current user and product
+                }
             }
         }
     
