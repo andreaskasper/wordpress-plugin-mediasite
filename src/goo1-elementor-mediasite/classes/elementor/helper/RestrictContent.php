@@ -103,7 +103,7 @@ class RestrictContent {
 
         $repeater = new \Elementor\Repeater();
 
-		//$rows = $wpdb->get_results( $wpdb->prepare('SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("product","product_variation")  ORDER BY post_title ASC'), ARRAY_A );
+		//$rows = $wpdb->get_results( $wpdb->prepare('SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("product","product_variation")  ORDER BY post_title ASC',array()), ARRAY_A );
         $rows = $wpdb->get_results( 'SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("product","product_variation")  ORDER BY post_title ASC', ARRAY_A );
 
 		$w = array();
@@ -256,7 +256,7 @@ class RestrictContent {
 		);
 
         
-        //$rows = $wpdb->get_results( $wpdb->prepare('SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("elementor_library")  ORDER BY post_title ASC'), ARRAY_A );
+        //$rows = $wpdb->get_results( $wpdb->prepare('SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("elementor_library")  ORDER BY post_title ASC',array()), ARRAY_A );
         $rows = $wpdb->get_results( 'SELECT ID, post_title FROM '.$wpdb->posts.' WHERE post_type IN ("elementor_library")  ORDER BY post_title ASC', ARRAY_A );
 
 		$rows_templates = array();
@@ -555,6 +555,7 @@ class RestrictContent {
         foreach ( $products as $product ) {
             // Check if the product is a subscription product
             if ( class_exists( 'WC_Subscriptions_Product' ) && \WC_Subscriptions_Product::is_subscription( $product ) ) {
+            	//if ($product->is_type('variation')) $subscription_products[$product->ID] = "___".$product->post_title;
                 $subscription_products[$product->ID] = $product->post_title;
             }
         }
@@ -583,11 +584,16 @@ class RestrictContent {
                 $subscription_product_id = $item->get_product_id();
 
                 // To get the variation subscription product ID
-                //$variation_id = $item->get_variation_id();
+                $variation_id = $item->get_variation_id();
+                
+                //echo("PID: ".$subscription_product_id." ".$variation_id);
 
                 // Or to get the simple subscription or the variation subscription product ID
                 //$_product_id = $product->get_id();
                 if ( $subscription_product_id == $product_id ) {
+                    return true; // Subscription is active for the current user and product
+                }
+                if ( $variation_id == $product_id ) {
                     return true; // Subscription is active for the current user and product
                 }
             }
