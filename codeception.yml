@@ -1,0 +1,12 @@
+coverage:
+    enabled: true
+paths:
+    tests: codecept_test
+    output: /var/log/codecept/
+    data: codecept_test/_data
+    support: codecept_test/_support
+    envs: codecept_test/_envs
+actor_suffix: Tester
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
